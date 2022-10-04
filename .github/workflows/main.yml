@@ -30,6 +30,18 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-central-1 # Use your bucket region here
+          
+      - name: Make artifact directory
+        run: mkdir -p ./artifacts/${{ github.repository }}
+        
+      - name: Create Zip File
+        run: zip ./artifacts/${{ github.repository }}/${{ github.sha }}.zip ./index.js
+        
+      - name: Push zip artifact to S3 bucket
+        run: aws s3 sync ./artifacts/ s3://gittestmbh.s3.eu-central-1.amazonaws.com
+        
+      - name: Delete artifact directory
+        run: rm -rf ./artifacts/${{ github.repository }}
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
