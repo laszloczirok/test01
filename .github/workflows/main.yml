@@ -38,7 +38,7 @@ jobs:
         run: zip ./artifacts/${{ github.repository }}/${{ github.sha }}.zip ./index.js
         
       - name: Push zip artifact to S3 bucket
-        run: aws s3 sync ./artifacts/ s3://gittestmbh.s3.eu-central-1.amazonaws.com
+        run: aws s3 sync ./artifacts/ s3://gittestmbh
         
       - name: Delete artifact directory
         run: rm -rf ./artifacts/${{ github.repository }}
